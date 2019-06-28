@@ -8,8 +8,8 @@ let log = (logItem) => {
     fs.appendFileSync('result.txt', logItem.formatedItem);
 }
 
-let doTransaction = async (trGroupNumber, trNumber) => {
-    return new Promise((resolve, reject) => {
+let doTransaction =  (trGroupNumber, trNumber) => {
+    return new Promise( (resolve, reject) => {
         const item = new LogItem({
             startTime: new Date(),
             txNumber: globalNumber,
@@ -156,46 +156,59 @@ let doTransaction = async (trGroupNumber, trNumber) => {
             type: "event"
         }], '0x6bb79673638386196357b1b9032219aba6bf3c10'
         );
-        CoursetroContract.methods.set_device_data(web3.eth.defaultAccount, 'other-some-test-hash').send({ from: web3.eth.defaultAccount }).then((data) => {
-            console.log(data);
-            CoursetroContract.methods.get_device_timestamps(web3.eth.defaultAccount).call().then((data) => {
-                console.log(data);
-                item.endTime = new Date();
-                log(item);
-                resolve();
-            });
-        });
 
-        // setTimeout(() => {
-        //     console.info(`${++globalNumber}  ${trGroupNumber} ${trNumber} -> do Transaction`);
-        //     item.endTime = new Date();
-        //     log(item);
-        //     resolve();
-        // }, 2000);
+        CoursetroContract.methods.set_device_data(web3.eth.defaultAccount, 'other-some-test-hash').send({ from: web3.eth.defaultAccount })
+            .then((data) => {
+                console.log('set_device_data', data);
+                CoursetroContract.methods.get_device_timestamps(web3.eth.defaultAccount).call()
+                    .then((data) => {
+                        console.log('get_device_timestamps', data);
+                        item.endTime = new Date();
+                        log(item);
+                        resolve();
+                }).catch((err) => console.error(err));
+        }).catch((err) => console.error(err));
     })
 };
 
-let callDoTransaction = async (trGroupNumber, callCnt) => {
-    await doTransaction(trGroupNumber, callCnt);
+let callDoTransaction = (trGroupNumber, callCnt) => {
+    return new Promise((resolve, reject) => {
+        doTransaction(trGroupNumber, callCnt)
+            .then(() => {
+                if (callCnt == 1) {
+                    return resolve();
+                }
+            
+                callDoTransaction(trGroupNumber, --callCnt)
+                .then(() => {
+                    resolve()
+                });
+                //
+            });;
 
-    if (callCnt == 1) {
-        return;
-    }
-
-    callDoTransaction(trGroupNumber, --callCnt);
-
+       
+    })
 }
 
-let control = async (trGroupNumber, callCnt, ms) => {
-    setTimeout(async () => {
-        await callDoTransaction(trGroupNumber, callCnt);
-    }, ms);
+let control = (trGroupNumber, callCnt, ms) => {
+    return new Promise((resolve, reject) => {
+        setTimeout( () => {
+            callDoTransaction(trGroupNumber, callCnt)
+                .then(() => {
+                    resolve()
+                });
+        }, ms);
+    });
 }
 
-let main = async () => {
-    await control('#tr_1', 1, 0);
-    await control('#tr_2', 5, 11000);
-    await control('#tr_3', 15, 50000);
+let main =  () => {
+    control('#tr_1', 1, 0)
+        .then(() => {
+            control('#tr_2', 5, 11000)
+                .then(() => {
+                    control('#tr_3', 15, 50000);
+            });
+        }).catch((err) => console.error(err));;
 }
 
 main();
