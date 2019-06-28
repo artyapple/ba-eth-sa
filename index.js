@@ -28,7 +28,7 @@ let doTransaction = async (trGroupNumber, trNumber) => {
         web3.eth.defaultAccount = '0x62a86f3cae24e6bdcf10bd616cfdb7049c04f745';
         console.log('web3.eth.defaultAccount', web3.eth.defaultAccount, 'web3.eth.accounts[0]', web3.eth.accounts[0])
         console.log('coinbase: ', web3.eth.coinbase)
-        web3.eth.personal.unlockAccount(web3.eth.defaultAccount, "haw", 15000);
+        //web3.eth.personal.unlockAccount(web3.eth.defaultAccount, "haw", 15000);
 
         var CoursetroContract = web3.eth.Contract([{
             constant: true,
