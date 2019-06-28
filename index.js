@@ -17,14 +17,17 @@ let doTransaction = async (trGroupNumber, trNumber) => {
             txSetNumber: trNumber
         });
 
+        let web3;
         if (typeof web3 !== 'undefined') {
             web3 = new Web3(web3.currentProvider);
         } else {
             // set the provider you want from Web3.providers
             web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8001"));
         }
-        web3.eth.defaultAccount = web3.eth.accounts[0];
-
+        // web3.eth.defaultAccount = web3.eth.accounts[0];
+        web3.eth.defaultAccount = '0x62a86f3cae24e6bdcf10bd616cfdb7049c04f745';
+        console.log('web3.eth.defaultAccount', web3.eth.defaultAccount, 'web3.eth.accounts[0]', web3.eth.accounts[0])
+        console.log('coinbase: ', web3.eth.coinbase)
         web3.eth.personal.unlockAccount(web3.eth.defaultAccount, "haw", 15000);
 
         var CoursetroContract = web3.eth.Contract([{
