@@ -147,7 +147,7 @@ module.exports = class EtheriumService {
 
             CoursetroContract.methods.set_device_data(web3.eth.defaultAccount, 'other-some-test-hash').send({ from: web3.eth.defaultAccount })
                 .then((data) => {
-                    console.log('set_device_data', data);
+                    console.log('get_device_timestamps', `Status ${data.status}`, `Transaction Hash ${data.transactionHash}`);
                     CoursetroContract.methods.get_device_timestamps(web3.eth.defaultAccount).call()
                         .then((data) => {
                             console.log('get_device_timestamps', `Length ${data.length}`, `Last BigNumber ${data[data.length -1]}`);
