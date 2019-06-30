@@ -154,7 +154,14 @@ module.exports = class EtheriumService {
                       CoursetroContract.methods.get_device_timestamps(web3.eth.defaultAccount).call()
                           .then((data) => {
                               console.log('get_device_timestamps', `Length ${data.length}`, `Last BigNumber ${data[data.length -1]}`);
-                              resolve(data);
+                              CoursetroContract.methods.get_device_data(web3.eth.defaultAccount, data[data.length -1]).call().then((value) =>{
+                                console.log('Value from blockchain: ', value);
+                                resolve(value);
+                              }).catch((err) => {
+                                console.error(err)
+                                reject(err);
+                              });
+
                           }).catch((err) => {
                               console.error(err)
                               reject(err);
@@ -168,8 +175,6 @@ module.exports = class EtheriumService {
               console.log(err)
               reject(err);
             });
-
-
         });
     }
 }
