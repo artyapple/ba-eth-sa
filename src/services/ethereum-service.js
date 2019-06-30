@@ -2,16 +2,6 @@ const Web3 = require('web3');
 const Accounts = require('web3-eth-accounts');
 const request = require('request');
 
-function callback(error, response, body) {
-  console.log('response: ', response.statusCode)
-  if (!error && response.statusCode == 200) {
-    console.log('response: ', response);
-    console.log('not error:!! ');
-  } else {
-    console.log('response: ', response);
-    console.log('error!!!!');
-  }
-}
 
 module.exports = class EtheriumService {
 
@@ -27,9 +17,6 @@ module.exports = class EtheriumService {
         web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8001"));
       }
 
-      //const accounts = new Accounts('http://localhost:8001', null, options);
-
-      // web3.eth.defaultAccount = web3.eth.accounts[0];
       web3.eth.defaultAccount = '0x62a86f3cae24e6bdcf10bd616cfdb7049c04f745';
       console.log('web3.eth.defaultAccount', web3.eth.defaultAccount);
 
@@ -161,18 +148,16 @@ module.exports = class EtheriumService {
           type: "event"
         }], '0x6bb79673638386196357b1b9032219aba6bf3c10');
 
-        const options = {
-          url: 'http://localhost:8500/bzz:/',
-          headers: {
-            'Content-Type': 'text/plain'
-          },
-          method: 'POST',
-          body: '{ "timestamp": "1505477559", "payload": "hello from IoT device! ai" }'
-        };
+        // const options = {
+        //   url: 'http://localhost:8500/bzz:/',
+        //   headers: {
+        //     'Content-Type': 'text/plain'
+        //   },
+        //   method: 'POST',
+        //   body: '{ "timestamp": "1505477559", "payload": "hello from IoT device! ai" }'
+        // };
 
-        request(options, callback).then((response) => {
-          console.log("then request")
-        })
+
 
 
         CoursetroContract.methods.set_device_data(web3.eth.defaultAccount, 'other-some-test-hash').send({
