@@ -1,1 +1,0 @@
-{ env1: "%{ENV_VAR1}", env2: "%{ENV_VAR2|def}" }

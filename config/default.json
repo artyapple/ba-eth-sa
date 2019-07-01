@@ -1,4 +1,9 @@
 {
      "port": 8080,
-     "static_variable": "static"
+     "static_variable": "static",
+     "ethAddr" : "http://localhost:8001",
+     "ethAccount" : "0x62a86f3cae24e6bdcf10bd616cfdb7049c04f745",
+     "password" : "haw",
+     "contractAddr" : "0x6bb79673638386196357b1b9032219aba6bf3c10",
+     "swarmAddr" : "http://localhost:8500/bzz:/"
 }

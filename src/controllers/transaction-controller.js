@@ -3,6 +3,8 @@ const LogItem = require('../models/log-item');
 const EthereumService = require('../services/ethereum-service');
 const TransactionSetItem = require('../models/transaction-set-item');
 const TransactionSetCollection = require('../models/transaction-set-collection')
+const config = require('config');
+//const dbConfig = config.get('ethAddr');
 
 module.exports = class TransactionController {
 
@@ -10,6 +12,7 @@ module.exports = class TransactionController {
     this.logger = new Logger();
     this.globalNumber = 0;
     this.collection = new TransactionSetCollection();
+    this.service = new EthereumService(config.get('ethAddr'), config.get('ethAccount'), config.get('password'), config.get('contractAddr'), config.get('swarmAddr'));
   }
 
   register(setNumber, callCnt, ms) {
@@ -75,8 +78,7 @@ module.exports = class TransactionController {
 
       const txNumber = item.txNumber;
       console.log(`> do transaction nr. ${txNumber}`);
-      const service = new EthereumService();
-      service.transact()
+      this.service.transact()
         .then((data) => {
           console.log(`> end of transaction nr. ${txNumber}`);
           item.endTime = new Date();
