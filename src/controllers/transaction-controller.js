@@ -4,7 +4,6 @@ const EthereumService = require('../services/ethereum-service');
 const TransactionSetItem = require('../models/transaction-set-item');
 const TransactionSetCollection = require('../models/transaction-set-collection')
 const config = require('config');
-//const dbConfig = config.get('ethAddr');
 
 module.exports = class TransactionController {
 
@@ -24,7 +23,6 @@ module.exports = class TransactionController {
     if (this.collection.completed) {
       return;
     }
-
     const item = this.collection.next();
     this.runItem(item)
       .then(() => {
@@ -69,16 +67,17 @@ module.exports = class TransactionController {
 
   doTransaction(setNumber, trNumber) {
     return new Promise((resolve, reject) => {
+      console.log('trNumber', trNumber, 'setNumber', setNumber);
       const item = new LogItem({
         startTime: new Date(),
         txNumber: ++this.globalNumber,
         setNumber: setNumber,
-        txSetNumber: trNumber
+        txSetNumber: trNumber,
+        deviceId: config.get('deviceId')
       });
-
       const txNumber = item.txNumber;
       console.log(`> do transaction nr. ${txNumber}`);
-      this.service.transact()
+      this.service.transact(item)
         .then((data) => {
           console.log(`> end of transaction nr. ${txNumber}`);
           item.endTime = new Date();

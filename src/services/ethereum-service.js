@@ -13,8 +13,14 @@ module.exports = class EthereumService {
     this.swarmAddr = swarmAddr;
   }
 
+  // setDataEth(contract, acc, data) {
+  //   contract.methods.set_device_data(acc, data).send({
+  //     from: acc,
+  //     gas: 700000
+  //   });
+  // }
 
-  transact() {
+  transact(protocol) {
     return new Promise((resolve, reject) => {
       let web3;
       if (typeof web3 !== 'undefined') {
@@ -155,74 +161,73 @@ module.exports = class EthereumService {
           type: "event"
         }], this.contractAddr);
         // set iot data in swarm
+
+        let iotData = '{ "payload":' + new Date().getTime() + '}';
+        console.log('IoT data: ', iotData);
+
         axios({
           url: this.swarmAddr,
           headers: {
             'Content-Type': 'text/plain'
           },
           method: 'post',
-          data: '{ "payload": "something special" }'
+          data: iotData
         }).then((response) => {
           console.log('http response: ', response.data);
-          //let hashData = response.data;
+          let setDataEthStart = new Date();
           // set iot-data-hash in ethereum
-
-
-          CoursetroContract.methods.set_device_data(web3.eth.defaultAccount, '1e085d4d8845b5354fd487a027a8ff9dbfcbbd6efeb233dfc2224384a385e679').send({
-              from: web3.eth.defaultAccount
-            })
-            .then((data) => {
-              console.log('set_device_data', `Status ${data.status}`, `Transaction Hash ${data.transactionHash}`);
-              // get data timestamps from ethereum for current device
-              CoursetroContract.methods.get_device_timestamps(web3.eth.defaultAccount).call()
-                .then((timestamps) => {
-                  console.log('get_device_timestamps', `Length ${timestamps.length}`, `Last BigNumber ${timestamps[timestamps.length -1]}`);
-                  // get iot-data-hash by timestamp for current device
-                  CoursetroContract.methods.get_device_data(web3.eth.defaultAccount, timestamps[timestamps.length - 1]).call().then((ghash) => {
-                    console.log('Value from blockchain: ', ghash);
-                    let dataurl = this.swarmAddr + ghash;
-                    // get iot data from swarm by hash value
-                    axios({
-                      url: dataurl,
-                      method: 'get'
-                    }).then((swarmResponse) => {
-                      console.log('GET data from swarm: ', swarmResponse.data);
-                      //console.log('GET data from swarm: ', response.data);
-                      resolve(value);
-                    }).catch((err) => {
-                      console.log("---------------------------response error");
-                      console.log(err);
-                    });
-
-
+          CoursetroContract.methods.set_device_data(web3.eth.defaultAccount, response.data).send({
+            from: web3.eth.defaultAccount,
+            gas: 700000
+          }).then((data) => {
+            protocol.setEthDuration = (new Date() - setDataEthStart);
+            console.log('set_device_data', `Status ${data.status}`, `Transaction Hash ${data.transactionHash}`);
+            let getTsEthStart = new Date();
+            // get data timestamps from ethereum for current device
+            CoursetroContract.methods.get_device_timestamps(web3.eth.defaultAccount).call()
+              .then((timestamps) => {
+                protocol.getTsEthDuration = new Date() - getTsEthStart;
+                console.log('get_device_timestamps', `Length ${timestamps.length}`, `Last BigNumber ${timestamps[timestamps.length -1]}`);
+                // get iot-data-hash by timestamp for current device
+                CoursetroContract.methods.get_device_data(web3.eth.defaultAccount, timestamps[timestamps.length - 1]).call().then((ghash) => {
+                  console.log('Value from blockchain: ', ghash);
+                  let dataurl = this.swarmAddr + ghash;
+                  // get iot data from swarm by hash value
+                  axios({
+                    url: dataurl,
+                    method: 'get'
+                  }).then((swarmResponse) => {
+                    console.log('GET data from swarm: ', swarmResponse.data);
+                    protocol.dataEql = (iotData === swarmResponse.data);
+                    //console.log('GET data from swarm: ', response.data);
+                    resolve(swarmResponse);
                   }).catch((err) => {
-                    console.error(err)
-                    reject(err);
+                    console.log("---------------------------response error");
+                    console.log(err);
                   });
-
                 }).catch((err) => {
                   console.error(err)
                   reject(err);
                 });
-            }).catch((err) => {
-              console.error(err)
-              reject(err);
-            });
+              }).catch((err) => {
+                console.error(err)
+                reject(err);
+              });
+          }).catch((err) => {
+            console.error(err)
+            reject(err);
+          });
 
         }).catch((err) => {
           console.error(err)
           reject(err);
         })
-
-
-
-
-
-
       }).catch((err) => {
         console.log(err)
         reject(err);
       });
     });
   }
+
+
 }

@@ -1,8 +1,8 @@
 {
      "deviceId": "node0",
      "ethAddr" : "http://localhost:8001",
-     "ethAccount" : "0xd4788b9bfccbbd7a5dc1868fe33968f0541d5a35",
+     "ethAccount" : "0x62a86f3cae24e6bdcf10bd616cfdb7049c04f745",
      "password" : "haw",
-     "contractAddr" : "0xfdaff3df5844bde02825f472798ac7af5073770f",
+     "contractAddr" : "0x6bb79673638386196357b1b9032219aba6bf3c10",
      "swarmAddr" : "http://localhost:8500/bzz:/"
 }

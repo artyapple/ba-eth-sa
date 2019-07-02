@@ -1,17 +1,35 @@
 module.exports = class LogItem {
-    constructor(obj) {
-        this.startTime  = obj.startTime;
-        this.endTime    = obj.endTime;
-        this.txNumber   = obj.txNumber;
-        this.setNumber  = obj.setNumber;
-        this.txSetNumber= obj.txSetNumber;
-    }
+  constructor(obj) {
+    // global tx number
+    this.txNumber = obj.txNumber;
+    // number of set
+    this.setNumber = obj.txSetNumber;
+    // transaction in set
+    this.txSetNumber = obj.txSetNumber;
+    // decice identifier
+    this.deviceId = obj.deviceId;
+    // start time of tx
+    this.startTime = obj.startTime;
+    // end time of tx
+    this.endTime = obj.endTime;
+    // data in / out equals
+    this.dataEql = false;
 
-    get duration() {
-        return this.endTime - this.startTime;
-    }
+    // eth and swarm tx duration
+    //
+    // set_swarm
+    this.setSwmDuration = obj.setSwmDuration;
+    // set_data_eth duration
+    this.setEthDuration = obj.setEthDuration;
+    // set_ts_eth duration
+    this.getTsEthDuration = obj.getTsEthDuration;
+  }
 
-    get formatedItem() {
-        return `${this.txNumber}  ${this.setNumber} ${this.txSetNumber}: ${this.startTime.toISOString()} - ${this.endTime.toISOString()} ${this.duration} \n`
-    }
+  get duration() {
+    return this.endTime - this.startTime;
+  }
+
+  get formatedItem() {
+    return `${this.txNumber};${this.setNumber};${this.txSetNumber};${this.deviceId};${this.startTime.toISOString()};${this.endTime.toISOString()};${this.duration};${this.dataEql};${this.setSwmDuration};${this.setEthDuration};${this.getTsEthDuration};\n`
+  }
 }
