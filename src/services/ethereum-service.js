@@ -165,63 +165,40 @@ module.exports = class EthereumService {
         let iotData = '{ "payload":' + new Date().getTime() + '}';
         console.log('IoT data: ', iotData);
 
-        axios({
-          url: this.swarmAddr,
-          headers: {
-            'Content-Type': 'text/plain'
-          },
-          method: 'post',
-          data: iotData
-        }).then((response) => {
-          console.log('http response: ', response.data);
-          let setDataEthStart = new Date();
-          // set iot-data-hash in ethereum
-          CoursetroContract.methods.set_device_data(web3.eth.defaultAccount, response.data).send({
-            from: web3.eth.defaultAccount,
-            gas: 700000
-          }).then((data) => {
-            protocol.setEthDuration = (new Date() - setDataEthStart);
-            console.log('set_device_data', `Status ${data.status}`, `Transaction Hash ${data.transactionHash}`);
-            let getTsEthStart = new Date();
-            // get data timestamps from ethereum for current device
-            CoursetroContract.methods.get_device_timestamps(web3.eth.defaultAccount).call()
-              .then((timestamps) => {
-                protocol.getTsEthDuration = new Date() - getTsEthStart;
-                console.log('get_device_timestamps', `Length ${timestamps.length}`, `Last BigNumber ${timestamps[timestamps.length -1]}`);
-                // get iot-data-hash by timestamp for current device
-                CoursetroContract.methods.get_device_data(web3.eth.defaultAccount, timestamps[timestamps.length - 1]).call().then((ghash) => {
-                  console.log('Value from blockchain: ', ghash);
-                  let dataurl = this.swarmAddr + ghash;
-                  // get iot data from swarm by hash value
-                  axios({
-                    url: dataurl,
-                    method: 'get'
-                  }).then((swarmResponse) => {
-                    console.log('GET data from swarm: ', swarmResponse.data);
-                    protocol.dataEql = (iotData === swarmResponse.data);
-                    //console.log('GET data from swarm: ', response.data);
-                    resolve(swarmResponse);
-                  }).catch((err) => {
-                    console.log("---------------------------response error");
-                    console.log(err);
-                  });
-                }).catch((err) => {
-                  console.error(err)
-                  reject(err);
-                });
+
+        let setDataEthStart = new Date();
+        // set iot-data-hash in ethereum
+        CoursetroContract.methods.set_device_data(web3.eth.defaultAccount, iotData).send({
+          from: web3.eth.defaultAccount,
+          gas: 700000
+        }).then((data) => {
+          protocol.setEthDuration = (new Date() - setDataEthStart);
+          console.log('set_device_data', `Status ${data.status}`, `Transaction Hash ${data.transactionHash}`);
+          let getTsEthStart = new Date();
+          // get data timestamps from ethereum for current device
+          CoursetroContract.methods.get_device_timestamps(web3.eth.defaultAccount).call()
+            .then((timestamps) => {
+              protocol.getTsEthDuration = new Date() - getTsEthStart;
+              console.log('get_device_timestamps', `Length ${timestamps.length}`, `Last BigNumber ${timestamps[timestamps.length -1]}`);
+              // get iot-data-hash by timestamp for current device
+              CoursetroContract.methods.get_device_data(web3.eth.defaultAccount, timestamps[timestamps.length - 1]).call().then((ghash) => {
+                console.log('Value from blockchain: ', ghash);
+                let dataurl = this.swarmAddr + ghash;
+                resolve(ghash);
+                // get iot data from swarm by hash value
+
               }).catch((err) => {
                 console.error(err)
                 reject(err);
               });
-          }).catch((err) => {
-            console.error(err)
-            reject(err);
-          });
-
+            }).catch((err) => {
+              console.error(err)
+              reject(err);
+            });
         }).catch((err) => {
           console.error(err)
           reject(err);
-        })
+        });
       }).catch((err) => {
         console.log(err)
         reject(err);
