@@ -3,7 +3,7 @@ module.exports = class LogItem {
     // global tx number
     this.txNumber = obj.txNumber;
     // number of set
-    this.setNumber = obj.txSetNumber;
+    this.setNumber = obj.setNumber;
     // transaction in set
     this.txSetNumber = obj.txSetNumber;
     // decice identifier
@@ -23,6 +23,10 @@ module.exports = class LogItem {
     this.setEthDuration = obj.setEthDuration;
     // set_ts_eth duration
     this.getTsEthDuration = obj.getTsEthDuration;
+    // get_device_data duration
+    this.getDataEthDuration = obj.getDataEthDuration;
+    // get_swarm
+    this.getSwmDuration = obj.getSwmDuration;
   }
 
   get duration() {
@@ -30,6 +34,6 @@ module.exports = class LogItem {
   }
 
   get formatedItem() {
-    return `${this.txNumber};${this.setNumber};${this.txSetNumber};${this.deviceId};${this.startTime.toISOString()};${this.endTime.toISOString()};${this.duration};${this.dataEql};${this.setSwmDuration};${this.setEthDuration};${this.getTsEthDuration};\n`
+    return `${this.txNumber};${this.setNumber};${this.txSetNumber};${this.deviceId};${this.startTime.toISOString()};${this.endTime.toISOString()};${this.duration};${this.dataEql};${this.setSwmDuration};${this.setEthDuration};${this.getTsEthDuration};${this.getDataEthDuration};${this.getSwmDuration};\n`
   }
 }

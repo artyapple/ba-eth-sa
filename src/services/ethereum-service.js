@@ -188,17 +188,21 @@ module.exports = class EthereumService {
               .then((timestamps) => {
                 protocol.getTsEthDuration = new Date() - getTsEthStart;
                 console.log('get_device_timestamps', `Length ${timestamps.length}`, `Last BigNumber ${timestamps[timestamps.length -1]}`);
+                let getDataEthStart = new Date();
                 // get iot-data-hash by timestamp for current device
                 CoursetroContract.methods.get_device_data(web3.eth.defaultAccount, timestamps[timestamps.length - 1]).call().then((ghash) => {
+                  protocol.getDataEthDuration = new Date() - getDataEthStart;
                   console.log('Value from blockchain: ', ghash);
+                  let getDataSwmStart = new Date();
                   let dataurl = this.swarmAddr + ghash;
                   // get iot data from swarm by hash value
                   axios({
                     url: dataurl,
                     method: 'get'
                   }).then((swarmResponse) => {
+                    protocol.getSwmDuration = new Date() - getDataSwmStart;
                     console.log('GET data from swarm: ', swarmResponse.data);
-                    protocol.dataEql = (iotData === swarmResponse.data);
+                    protocol.dataEql = (iotData == swarmResponse.data);
                     //console.log('GET data from swarm: ', response.data);
                     resolve(swarmResponse);
                   }).catch((err) => {

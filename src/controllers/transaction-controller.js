@@ -65,14 +65,14 @@ module.exports = class TransactionController {
     })
   }
 
-  doTransaction(setNumber, trNumber) {
+  doTransaction(setNumber, txSetNumber) {
     return new Promise((resolve, reject) => {
-      console.log('trNumber', trNumber, 'setNumber', setNumber);
+      console.log('txSetNumber', txSetNumber, 'setNumber', setNumber);
       const item = new LogItem({
         startTime: new Date(),
         txNumber: ++this.globalNumber,
         setNumber: setNumber,
-        txSetNumber: trNumber,
+        txSetNumber: txSetNumber,
         deviceId: config.get('deviceId')
       });
       const txNumber = item.txNumber;
