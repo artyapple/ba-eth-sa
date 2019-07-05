@@ -164,7 +164,7 @@ module.exports = class EthereumService {
 
         let iotData = '{ "payload":' + new Date().getTime() + '}';
         console.log('IoT data: ', iotData);
-
+        let setSwmStart = new Date();
         axios({
           url: this.swarmAddr,
           headers: {
@@ -173,6 +173,7 @@ module.exports = class EthereumService {
           method: 'post',
           data: iotData
         }).then((response) => {
+          protocol.setSwmDuration = new Date() - setSwmStart;
           console.log('http response: ', response.data);
           let setDataEthStart = new Date();
           // set iot-data-hash in ethereum

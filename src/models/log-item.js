@@ -13,7 +13,7 @@ module.exports = class LogItem {
     // end time of tx
     this.endTime = obj.endTime;
     // data in / out equals
-    this.dataEql = false;
+    this.dataEql = obj.dataEql;
 
     // eth and swarm tx duration
     //
