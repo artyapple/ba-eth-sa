@@ -28,7 +28,7 @@ module.exports = class TransactionController {
         console.log('finish', new Date().toISOString());
         return;
       } else {
-        let item = this.collection.next();
+        let item = items.next();
         this.callDoTransaction(item.setNumber, item.callCnt);
       }
     });
