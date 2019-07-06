@@ -16,7 +16,7 @@ module.exports = class TransactionController {
     this.service = new EthereumService(config.get('ethAddr'), config.get('ethAccount'), config.get('password'), config.get('contractAddr'), config.get('swarmAddr'));
   }
 
-  register(setNumber, callCnt, ms) {
+  register(setNumber, callCnt) {
     const item = new TransactionSetItem(setNumber, callCnt, ms);
     this.collection.add(item);
   }
@@ -32,32 +32,6 @@ module.exports = class TransactionController {
         let item = items.next();
         callDoTransaction(item.setNumber, item.callCnt);
       }
-    });
-  }
-
-  run() {
-    if (this.collection.completed) {
-      return;
-    }
-    const item = this.collection.next();
-    this.runItem(item)
-      .then(() => {
-        this.run();
-      }).catch((err) => {
-
-      });
-  }
-
-  runItem(item) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        this.callDoTransaction(item.setNumber, item.callCnt)
-          .then((data) => {
-            resolve(data);
-          }).catch((err) => {
-            reject(err);
-          });
-      }, item.ms);
     });
   }
 

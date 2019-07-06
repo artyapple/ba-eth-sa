@@ -162,7 +162,7 @@ module.exports = class EthereumService {
         }], this.contractAddr);
         // set iot data in swarm
 
-        let iotData = '{ "payload":' + new Date().getTime() + '}';
+        let iotData = '{ payload:' + new Date().getTime() + '}';
         console.log('IoT data: ', iotData);
         let setSwmStart = new Date();
         axios({
