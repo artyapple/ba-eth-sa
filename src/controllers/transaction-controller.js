@@ -4,6 +4,7 @@ const EthereumService = require('../services/ethereum-service');
 const TransactionSetItem = require('../models/transaction-set-item');
 const TransactionSetCollection = require('../models/transaction-set-collection')
 const config = require('config');
+const schedule = require('node-schedule');
 
 module.exports = class TransactionController {
 
@@ -17,6 +18,24 @@ module.exports = class TransactionController {
   register(setNumber, callCnt, ms) {
     const item = new TransactionSetItem(setNumber, callCnt, ms);
     this.collection.add(item);
+  }
+
+  otherRun() {
+    let j = schedule.scheduleJob('*/10 * * * *', function() {
+      if (this.collection.completed) {
+        return;
+      }
+      const item = this.collection.next();
+      this.callDoTransaction(item.setNumber, item.callCnt).then((data) => {
+        if (this.collection.completed) {
+          resolve(data);
+          return;
+        }
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
   }
 
   run() {

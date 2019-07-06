@@ -8,7 +8,7 @@ let main = () => {
   // after 20 min
   controller.register('#tr_3', 20, 1200000);
   //controller.register('#tr_3', 15, 50000);
-  controller.run();
+  controller.otherRun();
 }
 
 main();
