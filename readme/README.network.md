@@ -11,7 +11,7 @@ $ geth --datadir "~/node" init genesis.json
 ```
 Launch node zero, a mining full node in cloud
 ```javascript
-$ geth --rpc --rpcport "8001" --rpccorsdomain "*" --datadir "~/node" --port "30303" --rpcapi "db,eth,net,web3,personal" --identity "zero" --networkid 666 --mine --minerthreads 1 console
+$ geth --rpc --rpcport "8001" --rpccorsdomain "*" --datadir "~/node2" --port "30303" --rpcapi "db,eth,net,web3,personal" --identity "zero" --networkid 666 --mine --minerthreads 8
 ```
 To run in background with ```screen``` (CTRL+A then D for detaching), check ```geth.sh``` script
 ```javascript

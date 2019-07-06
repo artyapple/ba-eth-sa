@@ -17,6 +17,10 @@ $ sudo apt install -y curl
 $ sudo apt install -y build-essential
 $ sudo apt install -y screen
 $ curl -O https://storage.googleapis.com/golang/go1.9.linux-armv6l.tar.gz
+$ wget https://nodejs.org/dist/v10.16.0/node-v10.16.0-linux-armv7l.tar.xz
+$ tar xvf node-v10.16.0-linux-armv7l.tar.xz
+$ cd node-v10.16.0-linux-armv7l/
+$ sudo cp -R * /usr/local/
 ```
 Install Go binaries
 ```
