@@ -40,6 +40,6 @@ module.exports = class LogItem {
   }
 
   get formatedItem() {
-    return `${this.txNumber};${this.setNumber};${this.txSetNumber};${this.deviceId};${this.startTime.toISOString()};${this.endTime.toISOString()};${this.duration};${this.dataEql};${this.setSwmDuration};${this.setEthDuration};${this.getTsEthDuration};${this.getDataEthDuration};${this.getSwmDuration};\n`
+    return `${this.txNumber};${this.setNumber};${this.txSetNumber};${this.deviceId};${this.startTime.toISOString()};${this.endTime.toISOString()};${this.duration};${this.dataEql};${this.setSwmDuration};${this.setEthDuration};${this.getTsEthDuration};${this.getDataEthDuration};${this.getSwmDuration};${this.gethFolderSize};${this.swmFolderSize};\n`
   }
 }
