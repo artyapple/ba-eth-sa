@@ -10,7 +10,7 @@ module.exports = class TransactionSetCollection {
 
   get completed() {
     console.log('this.currentIndex ', this.currentIndex, ", this.count", this.count);
-    return this.currentIndex > this.count;
+    return this.currentIndex >= this.count;
   }
 
   any() {
