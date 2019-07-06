@@ -21,13 +21,14 @@ module.exports = class TransactionController {
   }
 
   otherRun() {
+    let items = this.collection;
     console.log('start: ', new Date().toISOString());
     var j = schedule.scheduleJob('*/10 * * * *', function() {
-      if (this.collection.completed) {
+      if (items.completed) {
         console.log('finish', new Date().toISOString());
         return;
       } else {
-        const item = this.collection.next();
+        let item = this.collection.next();
         this.callDoTransaction(item.setNumber, item.callCnt);
       }
     });
