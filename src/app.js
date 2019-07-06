@@ -10,7 +10,19 @@ let main = () => {
   // after 20 min
   controller.register('#tr_3', 5, 1200000);
   //controller.register('#tr_3', 15, 50000);
-  controller.otherRun();
+  // controller.otherRun();
+
+
+  console.log('start: ', new Date().toISOString());
+  var j = schedule.scheduleJob('*/10 * * * *', function() {
+    if (controller.collection.completed) {
+      console.log('finish', new Date().toISOString());
+      return;
+    } else {
+      let item = controller.collection.next();
+      controller.callDoTransaction(item.setNumber, item.callCnt);
+    }
+  });
 }
 
 main();
