@@ -13,13 +13,6 @@ module.exports = class EthereumService {
     this.swarmAddr = swarmAddr;
   }
 
-  // setDataEth(contract, acc, data) {
-  //   contract.methods.set_device_data(acc, data).send({
-  //     from: acc,
-  //     gas: 700000
-  //   });
-  // }
-
   transact(protocol) {
     return new Promise((resolve, reject) => {
       let web3;
@@ -162,7 +155,7 @@ module.exports = class EthereumService {
         }], this.contractAddr);
         // set iot data in swarm
 
-        let iotData = '{ "payload":' + new Date().getTime() + '}';
+        let iotData = '{' + new Date().getTime() + '}';
         console.log('IoT data: ', iotData);
         let setSwmStart = new Date();
         axios({

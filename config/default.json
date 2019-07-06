@@ -3,8 +3,9 @@
      "ethAddr" : "http://localhost:8002",
      "ethAccount" : "0x29bd1477a6879226fd489472f2db498276e94ca3",
      "password" : "haw",
-     "contractAddr" : "0xd7f2808ad61747730c113d6c24c8999d5411c08b",
+     "contractAddr" : "0x9248a49daf795214e021fe2a2eefc4caab1a2fb0",
      "swarmAddr" : "http://localhost:8500/bzz:/",
      "gethFolder" : "/home/arty/node2/geth",
      "swarmFolder" : "/home/arty/node2/swarm"
 }
+
