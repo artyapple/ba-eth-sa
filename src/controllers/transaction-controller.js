@@ -22,6 +22,7 @@ module.exports = class TransactionController {
 
   otherRun() {
     while (!this.collection.completed) {
+      console.log("run");
       const item = this.collection.next();
       setTimeout(() => {
         this.callDoTransaction(item.setNumber, item.callCnt)
