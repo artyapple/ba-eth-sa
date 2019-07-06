@@ -4,5 +4,7 @@
      "ethAccount" : "0x750e030d0d8dd3a7ffcde35466d75add9ebbc2ab",
      "password" : "haw",
      "contractAddr" : "0x01a5f91b52b87bd6adb04ec23cb5e17eba3a6f4f",
-     "swarmAddr" : "http://localhost:8500/bzz:/"
+     "swarmAddr" : "http://localhost:8500/bzz:/",
+     "gethFolder" : "/home/arty/node/geth",
+     "swarmFolder" : "/home/arty/node/swarm"
 }

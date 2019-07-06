@@ -27,6 +27,12 @@ module.exports = class LogItem {
     this.getDataEthDuration = obj.getDataEthDuration;
     // get_swarm
     this.getSwmDuration = obj.getSwmDuration;
+
+    /// folders size
+    //geth folder size byte
+    this.gethFolderSize = obj.gethFolderSize;
+    //swarm folders size byte
+    this.swmFolderSize = obj.swmFolderSize;
   }
 
   get duration() {
