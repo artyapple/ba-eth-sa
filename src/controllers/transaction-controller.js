@@ -21,21 +21,16 @@ module.exports = class TransactionController {
   }
 
   otherRun() {
-    let j = schedule.scheduleJob('*/10 * * * *', function() {
-      if (this.collection.completed) {
-        return;
-      }
-      const item = this.collection.next();
-      this.callDoTransaction(item.setNumber, item.callCnt).then((data) => {
-        if (this.collection.completed) {
-          resolve(data);
-          return;
-        }
-        resolve(data);
-      }).catch((err) => {
-        reject(err);
-      });
-    });
+    while (!this.collection.completed) {
+      setTimeout(() => {
+        this.callDoTransaction(item.setNumber, item.callCnt)
+          .then((data) => {
+            resolve(data);
+          }).catch((err) => {
+            reject(err);
+          });
+      }, item.ms);
+    }
   }
 
   run() {
