@@ -1,40 +1,41 @@
 module.exports = class TransactionSetCollection {
-    
-    constructor() {
-        this.clear();
-    }
 
-    get count() {
-        return this.sets.length;
-    }
+  constructor() {
+    this.clear();
+  }
 
-    get completed() {
-        return this.currentIndex > this.count;
-    }
+  get count() {
+    return this.sets.length;
+  }
 
-    any() {
-        return this.sets.length > 0;
-    }
+  get completed() {
+    console.log('this.currentIndex ', this.currentIndex, ", this.count", this.count);
+    return this.currentIndex > this.count;
+  }
 
-    reset() {
-        this.currentIndex = 0;
-    }
+  any() {
+    return this.sets.length > 0;
+  }
 
-    clear() {
-        this.sets = [];
-        this.reset();
-    }
+  reset() {
+    this.currentIndex = 0;
+  }
 
-    add(item) {
-        this.sets.push(item);
-    }
+  clear() {
+    this.sets = [];
+    this.reset();
+  }
 
-    remove(item) {
-        const index = this.sets.indexOf(item);
-        this.sets.splice(index, 1);
-    }
+  add(item) {
+    this.sets.push(item);
+  }
 
-    next() {
-        return this.sets[this.currentIndex++];
-    }
+  remove(item) {
+    const index = this.sets.indexOf(item);
+    this.sets.splice(index, 1);
+  }
+
+  next() {
+    return this.sets[this.currentIndex++];
+  }
 }
