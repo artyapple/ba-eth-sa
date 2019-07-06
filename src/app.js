@@ -21,7 +21,7 @@ let main = () => {
 
 
   console.log('start: ', new Date().toISOString());
-  var j = schedule.scheduleJob('*/10 * * * *', function() {
+  var j = schedule.scheduleJob('*/2 * * * *', function() {
     if (controller.collection.completed) {
       console.log('finish', new Date().toISOString());
       return;

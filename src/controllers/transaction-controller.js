@@ -17,7 +17,7 @@ module.exports = class TransactionController {
   }
 
   register(setNumber, callCnt) {
-    const item = new TransactionSetItem(setNumber, callCnt, ms);
+    const item = new TransactionSetItem(setNumber, callCnt);
     this.collection.add(item);
   }
 
