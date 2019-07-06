@@ -25,12 +25,7 @@ module.exports = class TransactionController {
       console.log("run");
       const item = this.collection.next();
       setTimeout(() => {
-        this.callDoTransaction(item.setNumber, item.callCnt)
-          .then((data) => {
-            resolve(data);
-          }).catch((err) => {
-            reject(err);
-          });
+        this.callDoTransaction(item.setNumber, item.callCnt);
       }, item.ms);
     }
   }
