@@ -1,11 +1,10 @@
 {
-     "deviceId": "node0t",
-     "ethAddr" : "http://localhost:8002",
+     "deviceId": "node0",
+     "ethAddr" : "http://localhost:8001",
      "ethAccount" : "0x29bd1477a6879226fd489472f2db498276e94ca3",
      "password" : "haw",
-     "contractAddr" : "0x9248a49daf795214e021fe2a2eefc4caab1a2fb0",
+     "contractAddr" : "0x1aaa19379c740e5e466f45053ebd2a3df8ff67a5",
      "swarmAddr" : "http://localhost:8500/bzz:/",
-     "gethFolder" : "/home/arty/node2/geth",
-     "swarmFolder" : "/home/arty/node2/swarm"
+     "gethFolder" : "/home/arty/node/geth",
+     "swarmFolder" : "/home/arty/node/swarm"
 }
-
